@@ -1,0 +1,42 @@
+*{
+    margin: 0em;
+}
+
+body{
+    background:#f0e9eb;
+    
+}
+
+.header{
+    background: #57199e;
+    width: 100%;
+    position: fixed;
+    text-align: center;
+}
+
+.header a{
+    text-decoration: none;
+    color: #ccc9c4;
+}
+
+.header-button{
+    padding-top:  1em;
+    padding-bottom:  1em;
+    padding-left: 3em;
+    padding-right: 3em;
+    font-family: 'Helvetica';
+    display: inline-block; 
+
+}
+
+.header-button a:hover{
+    color: #ffffff;
+    cursor: pointer;
+    
+}
+
+
+
+
+
+

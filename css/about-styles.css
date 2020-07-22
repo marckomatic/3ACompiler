@@ -1,0 +1,72 @@
+*{
+    margin: 0em;
+}
+
+body{
+    background:url("../assets/info-wallpaper.jpg");
+    
+}
+
+.header{
+    background: #57199e;
+    width: 100%;
+    position: fixed;
+    text-align: center;
+}
+
+.header a{
+    text-decoration: none;
+    color: #ccc9c4;
+}
+
+.header-button{
+    padding-top:  1em;
+    padding-bottom:  1em;
+    padding-left: 3em;
+    padding-right: 3em;
+    font-family: 'Helvetica';
+    display: inline-block; 
+
+}
+
+.header-button a:hover{
+    color: #ffffff;
+    cursor: pointer;
+    
+}
+
+
+.info{
+    background: #57199e;
+    border-radius: 7.5em;
+    margin-top: 9em;
+    margin-left: 5%;
+    padding: 2px;
+    float: left;
+    width: 90%;
+    
+}
+
+.info-desk{
+    float: left;
+    margin-left: 1em;
+    margin-top: 0.7em;
+    width: 55em;
+    font-size: 17   px;
+    color:#ffffff;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+
+.info img{
+    width: 15em;
+    height: auto;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    float: left;
+}
+
+footer{
+    margin-bottom: 90%;
+}
+
