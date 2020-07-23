@@ -1,0 +1,107 @@
+*{
+    margin: 0em;
+}
+
+body{
+    background:#f0e9eb;
+    
+}
+
+.header{
+    background: #57199e;
+    width: 100%;
+    position: fixed;
+    text-align: center;
+}
+
+.header a{
+    text-decoration: none;
+    color: #ccc9c4;
+}
+
+.header-button{
+    padding-top:  1em;
+    padding-bottom:  1em;
+    padding-left: 3em;
+    padding-right: 3em;
+    font-family: 'Helvetica';
+    display: inline-block; 
+
+}
+
+.header-button a:hover{
+    color: #ffffff;
+    cursor: pointer;
+    
+}
+
+.main-box{
+    width: 90%;
+    margin-top: 6em;
+    margin-left: 5%;
+    float: left;
+    padding: 2px;
+    padding: 0;
+
+
+}
+
+.menu-bar{
+
+    border: solid 3px #57199e;
+}
+
+.menu-op{
+    display: inline-block;
+    border-right: solid 3px #57199e;
+    padding-top:  0.7em;
+    padding-bottom:  0.7em;
+    padding-left: 1em;
+    padding-right: 1em;
+    color: #6e737a;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 0.9em;
+    font-weight: bold;
+    margin: left 0;
+}
+
+.menu-op:hover{
+    color: #57199e;
+    cursor: pointer;
+}
+
+.box-1{
+    margin-top: 0.2em;
+    display: inline-block;
+    width: 45%;
+}
+
+.box-2{
+    display: inline-block;
+    width: 45%
+}
+
+#console{
+    width: 106%;
+    margin-left: 4.4em;
+    height: 27em;
+    font-size: 17px;
+    background: #000000;
+    color: #26fc00;
+    padding: 0.3em;
+}
+
+#editor{
+    background: url(http://i.imgur.com/2cOaJ.png);
+    background-attachment: local;
+    background-repeat: no-repeat;
+    padding-left: 35px;
+    padding-top: 10px;
+    border-color:#ccc;
+}
+
+
+
+
+
+

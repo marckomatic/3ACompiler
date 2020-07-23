@@ -1,0 +1,3 @@
+$(function() {
+  $(".lined").linedtextarea();
+});
