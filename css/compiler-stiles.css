@@ -12,11 +12,14 @@ body{
     width: 100%;
     position: fixed;
     text-align: center;
+    user-select: none;
+
 }
 
 .header a{
     text-decoration: none;
     color: #ccc9c4;
+
 }
 
 .header-button{
@@ -37,7 +40,7 @@ body{
 
 .main-box{
     width: 90%;
-    margin-top: 6em;
+    margin-top: 5em;
     margin-left: 5%;
     float: left;
     padding: 2px;
@@ -49,6 +52,8 @@ body{
 .menu-bar{
 
     border: solid 3px #57199e;
+    user-select: none;
+
 }
 
 .menu-op{
@@ -68,6 +73,10 @@ body{
 .menu-op:hover{
     color: #57199e;
     cursor: pointer;
+}
+
+.menu-op:active{
+    color: #ffffff;
 }
 
 .box-1{

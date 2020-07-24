@@ -1,0 +1,2 @@
+var errores = [];
+var astSentencias = [];
