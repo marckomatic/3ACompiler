@@ -5,6 +5,7 @@
 function analizar(texto) {
     errores = [];
     astSentencias = [];
+    indiceSentenciaActual = 0;
     grammar.parse(texto);
     if (errores.length > 0) {
         let salida = "";
@@ -20,17 +21,15 @@ function analizar(texto) {
         });
         return salida;
     }
-    let nuevaTabla = new TablaSimbolos();    
 
-    astSentencias.forEach((sentencia, index) => {
-        sentencia.ejecutar(nuevaTabla);
-    });
+    let ast = new AST(astSentencias);
+    let salida = ast.ejecutar();
 
     if (errores.length > 0) {
-        let salida = "";
+        salida = "\n\n";
 
         errores.forEach((error, index) => {
-            salida = "****Se encontraron errores de sintaxis***\n\n";
+            salida = "****Se encontraron errores de ejecucion***\n\n";
             salida += (index + 1) + ") ";
             salida += "Descripcion: " + error.descripcion + " ";
             salida += "Tipo: " + error.tipo + " ";
@@ -38,8 +37,8 @@ function analizar(texto) {
             salida += "Columna: " + error.columna + "\n";
 
         });
-        nuevaTabla.salida += '\n' + salida;
+        salida = "\n";
     }
-    return nuevaTabla.salida;
+    return salida;
 
 }

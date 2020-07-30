@@ -1,2 +1,0 @@
-var errores = [];
-var astSentencias = [];

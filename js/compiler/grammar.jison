@@ -18,8 +18,6 @@
 "end"               return 't_end';
 "call"              return 't_call';
 "print"             return 't_print';
-"stack"             return "t_stack";
-"heap"              return "t_heap";
 "%c"                return 't_print_char';
 "%i"                return 't_print_int';
 "%d"                return 't_print_dec';
@@ -120,6 +118,10 @@ Instruccion : Asignacion
     {
         $$ = $1;
     }
+    | Etiqueta 
+    {
+        $$ = $1;
+    }
     | error {
         let error = {
             tipo: "Sintactico",
@@ -131,28 +133,72 @@ Instruccion : Asignacion
     };
 
 Asignacion : t_id t_igual Asignando
-    | t_id t_cor_a OperandoSimple t_cor_c t_igual OperandoSimple t_pycoma
+    {
+        if($3 instanceof NodoAsignacion){
+            let destinoTipo1 = new Operando(TipoOperando.ID, $1, null);
+            $$ = new NodoAsignacion(destinoTipo1, $3.operando1, $3.operando2, $3.operador, this._$.first_column, this._$.first_line);   
+        }
+        else{
+            let destinoTipo1 = new Operando(TipoOperando.ID, $1, null);
+            $$ = new NodoAsignacion(destinoTipo1, $3, null, null, this._$.first_column, this._$.first_line);   
+        }
+    }
+    | t_id t_cor_a OperandoSimple t_cor_c t_igual OperandoCompuesto t_pycoma
+    {
+        let destinoTipo2 = new Operando(TipoOperando.ID, $1, $3);
+        $$ = new NodoAsignacion(destinoTipo2, $6);
+    }
 ;
 
-Asignando : t_id t_pycoma
+Asignando : t_id Acceso t_pycoma
+    {
+        $$ = new Operando(TipoOperando.ID, $1, $2);
+    }
     | t_entero t_pycoma
+    {
+        $$ = new Operando(TipoOperando.VALOR, $1, null);
+    }
     | t_decimal t_pycoma
+    {
+        $$ = new Operando(TipoOperando.VALOR, $1, null);
+    }
     | Operacion t_pycoma
+    {
+        $$ = $1;
+    }
     ;
 
-Operacion : OperandoSimple Operador OperandoSimple 
+Operacion : OperandoSimple Operador OperandoSimple
+    {
+        $$ = new NodoAsignacion(null, $1, $3, $2, null, null);   
+    }
 ;
 
 Operador : t_mas
+    {
+        $$ = OperadorAritmetico.SUMA;
+    }
     | t_menos
+    {
+        $$ = OperadorAritmetico.RESTA;
+    }
     | t_por
+    {
+        $$ = OperadorAritmetico.MULTIPLICACION;
+    }
     | t_dividido
+    {
+        $$ = OperadorAritmetico.DIVISION;
+    }
     | t_modulo
+    {
+        $$ = OperadorAritmetico.MODULO;
+    }
 ;
 
 OperandoCompuesto : t_id Acceso
     {
-        $$ = new Operando(TipoOperando.ID, $1, null);
+        $$ = new Operando(TipoOperando.ID, $1, $2);
     }
     | t_decimal
     {
@@ -164,7 +210,7 @@ OperandoCompuesto : t_id Acceso
     }
 ;
 
-Acceso : t_cor_a Indice t_cor_c
+Acceso : t_cor_a OperandoSimple t_cor_c
     {
         $$ = $2;
     }
@@ -174,15 +220,6 @@ Acceso : t_cor_a Indice t_cor_c
     }
 ;
 
-Indice : t_id 
-    {
-        $$ = new Operando(TipoOperando.ID, $1, null);
-    }
-    | t_entero
-    {
-        $$ = new Operando(TipoOperando.VALOR, $1, null);
-    }
-;
 
 OperandoSimple : t_id 
     {
@@ -211,7 +248,9 @@ OperadorLogico : t_mayor
     | t_menor_igual
 ;
 
-SaltoIncondicional : t_goto t_id t_pycoma;
+SaltoIncondicional : t_goto t_id t_pycoma{
+    $$ = new NodoSaltoIncondicional($2, this._$.first_line, this._$.first_column);
+};
 
 Imprimir : t_print t_par_a OpcionPrint t_coma OperandoCompuesto t_par_c t_pycoma
 {
@@ -231,6 +270,10 @@ OpcionPrint : t_print_int
         $$ = TipoPrint.DECIMAL;
     }
 ;
+
+Etiqueta: t_id t_dospuntos{
+    $$ = new NodoEtiqueta($1, this._$.first_line, this._$.first_column);
+};
 
 LlamadaAProcedimiento: t_call t_id t_pycoma{
     $$ = new NodoLlamadaProc($2, this._$.first_line, this._$.first_column);
@@ -281,6 +324,10 @@ Sentencia: Asignacion
         $$ = $1;
     }
     | Imprimir
+    {
+        $$ = $1;
+    }
+    | Etiqueta
     {
         $$ = $1;
     }
