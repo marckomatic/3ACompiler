@@ -20,8 +20,8 @@ const OperadorAritmetico = {
 const OperadorLogico = {
     MAYOR: 1,
     MENOR: 2,
-    MAYOR_QUE: 3,
-    MENOR_QUE: 4,
+    MAYOR_IGUAL: 3,
+    MENOR_IGUAL: 4,
     IGUAL: 5,
     DIFERENTE: 6
 }
@@ -49,11 +49,11 @@ class Operando {
                         }
 
                         let posicion = this.indice.evaluar(tablaSimbolos, lineaOperando, columnaOperando);
-                        let errorEnPosicion = typeof(posicion) != 'number';
-                        if(errorEnPosicion){
+                        let errorEnPosicion = typeof (posicion) != 'number';
+                        if (errorEnPosicion) {
                             return errorEnPosicion;
                         }
-                        
+
                         if (posicion < 0 || posicion % 1 > 0) {
                             let nuevoError = {
                                 descripcion: 'La posicion de acceso en el stack es invalida',
@@ -63,11 +63,11 @@ class Operando {
                             }
                             return nuevoError;
                         }
-                        if(tablaSimbolos.stack[posicion] == null){
+                        if (tablaSimbolos.stack[posicion] == null) {
                             let error = {
                                 descripcion: 'La posicion ' + posicion + ' en el stack no ha sido asignada',
                                 tipo: 'semantico',
-                                linea: this.linea, 
+                                linea: this.linea,
                                 columna: this.columna
                             }
                             return error;
@@ -87,11 +87,11 @@ class Operando {
                         }
 
                         let posicion = this.indice.evaluar(tablaSimbolos, lineaOperando, columnaOperando);
-                        let errorEnPosicion = typeof(posicion) != 'number';
-                        if(errorEnPosicion){
+                        let errorEnPosicion = typeof (posicion) != 'number';
+                        if (errorEnPosicion) {
                             return errorEnPosicion;
                         }
-                        
+
                         if (posicion < 0 || posicion % 1 > 0) {
                             let nuevoError = {
                                 descripcion: 'La posicion de acceso en el heap es invalida',
@@ -101,11 +101,11 @@ class Operando {
                             }
                             return nuevoError;
                         }
-                        if(tablaSimbolos.heap[posicion] == null){
+                        if (tablaSimbolos.heap[posicion] == null) {
                             let error = {
                                 descripcion: 'La posicion ' + posicion + ' en el heap no ha sido asignada',
                                 tipo: 'semantico',
-                                linea: this.linea, 
+                                linea: this.linea,
                                 columna: this.columna
                             }
                             return error;
@@ -116,7 +116,7 @@ class Operando {
                     case 'h': {
                         return tablaSimbolos.h;
                     }
-                    break;
+                        break;
                     case 'p': {
                         return tablaSimbolos.p;
                     }
@@ -157,28 +157,28 @@ class NodoAsignacion {
 
     ejecutar(tablaSimbolos) {
         let resultado;
-        if(this.operador == null){
+        if (this.operador == null) {
             resultado = this.operando1.evaluar(tablaSimbolos, this.linea, this.columna);
-            let resultadoValido = typeof(resultado) == 'number';
-            if(!resultadoValido){
+            let resultadoValido = typeof (resultado) == 'number';
+            if (!resultadoValido) {
                 errores.push(resultado);
                 return;
             }
         }
-        else{
+        else {
             let op1 = this.operando1.evaluar(tablaSimbolos, this.linea, this.columna);
-            let resultadoValido = typeof(op1) == 'number';
-            if(!resultadoValido){
+            let resultadoValido = typeof (op1) == 'number';
+            if (!resultadoValido) {
                 errores.push(op1);
                 return;
             }
             let op2 = this.operando2.evaluar(tablaSimbolos, this.linea, this.columna);
-            resultadoValido = typeof(op2) == 'number';
-            if(!resultadoValido){
+            resultadoValido = typeof (op2) == 'number';
+            if (!resultadoValido) {
                 errores.push(op2);
                 return;
             }
-            switch(this.operador){
+            switch (this.operador) {
                 case OperadorAritmetico.SUMA:
                     resultado = op1 + op2;
                     break;
@@ -197,9 +197,9 @@ class NodoAsignacion {
             }
         }
 
-        switch(this.destino.valor.toLowerCase()){
-            case 'stack':{
-                if(this.destino.indice == null){
+        switch (this.destino.valor.toLowerCase()) {
+            case 'stack': {
+                if (this.destino.indice == null) {
                     let error = {
                         descripcion: 'Para usar el stack como destino se necesita de especificar un indice.',
                         tipo: 'semantico',
@@ -210,14 +210,14 @@ class NodoAsignacion {
                     return;
                 }
                 let posicionIndice = this.destino.indice.evaluar(tablaSimbolos, this.linea, this.columna);
-                let errorEnPosicion = typeof(posicionIndice) != 'number';
-                if(errorEnPosicion){
+                let errorEnPosicion = typeof (posicionIndice) != 'number';
+                if (errorEnPosicion) {
                     errores.push(posicionIndice);
                     return;
                 }
-                if(posicionIndice < 0 || posicionIndice % 1 > 0){
+                if (posicionIndice < 0 || posicionIndice % 1 > 0) {
                     let error = {
-                        descripcion: "La posicion de acceso no es una posicion valida", 
+                        descripcion: "La posicion de acceso no es una posicion valida",
                         tipo: "semantico",
                         linea: this.linea,
                         columna: this.columna
@@ -227,10 +227,10 @@ class NodoAsignacion {
                 }
                 tablaSimbolos.stack[posicionIndice] = resultado;
 
-            }   
-            break;
-            case 'heap':{
-                if(this.destino.indice == null){
+            }
+                break;
+            case 'heap': {
+                if (this.destino.indice == null) {
                     let error = {
                         descripcion: 'Para usar el heap como destino se necesita de especificar un indice.',
                         tipo: 'semantico',
@@ -241,14 +241,14 @@ class NodoAsignacion {
                     return;
                 }
                 let posicionIndice = this.destino.indice.evaluar(tablaSimbolos, this.linea, this.columna);
-                let errorEnPosicion = typeof(posicionIndice) != 'number';
-                if(errorEnPosicion){
+                let errorEnPosicion = typeof (posicionIndice) != 'number';
+                if (errorEnPosicion) {
                     errores.push(posicionIndice);
                     return;
                 }
-                if(posicionIndice < 0 || posicionIndice % 1 > 0){
+                if (posicionIndice < 0 || posicionIndice % 1 > 0) {
                     let error = {
-                        descripcion: "La posicion de acceso no es una posicion valida", 
+                        descripcion: "La posicion de acceso no es una posicion valida",
                         tipo: "semantico",
                         linea: this.linea,
                         columna: this.columna
@@ -258,19 +258,19 @@ class NodoAsignacion {
                 }
                 tablaSimbolos.heap[posicionIndice] = resultado;
             }
-            break;
-            case 'p':{
+                break;
+            case 'p': {
                 tablaSimbolos.p = resultado;
             }
-            break;
-            case 'h':{
+                break;
+            case 'h': {
                 tablaSimbolos.h = resultado;
             }
-            break;
-            default:{
+                break;
+            default: {
                 tablaSimbolos.setSimbolo(this.destino.valor, resultado);
             }
-            break;
+                break;
         }
     }
 }
@@ -285,10 +285,75 @@ class NodoSaltoCondicional {
         this.columna = columna;
     }
 
-    ejecutar() {
+    ejecutar(tablaSimbolos) {
+
+        let valor1 = this.operando1.evaluar(tablaSimbolos);
+        let valor2 = this.operando2.evaluar(tablaSimbolos);
+        if (typeof (valor1) != 'number') {
+            errores.push(valor1);
+            return;
+        }
+        if (typeof (valor2) != 'number') {
+            errores.push(valor2);
+            return;
+        }
+        let condicionSeCumple = false;
+        switch (this.operador) {
+            case OperadorLogico.IGUAL:
+                if (valor1 == valor2) {
+                    condicionSeCumple = true;
+                }
+                break;
+            case OperadorLogico.DIFERENTE:
+                if (valor1 != valor2) {
+                    condicionSeCumple = true;
+                }
+                break;
+            case OperadorLogico.MAYOR:
+                if (valor1 > valor2) {
+                    condicionSeCumple = true;
+                }
+                break;
+            case OperadorLogico.MAYOR_IGUAL:
+
+                if (valor1 >= valor2) {
+                    condicionSeCumple = true;
+                }
+
+                break;
+            case OperadorLogico.MENOR:
+
+                if (valor1 < valor2) {
+                    condicionSeCumple = true;
+                }
+
+                break;
+            case OperadorLogico.MENOR_IGUAL:
+
+                if (valor1 <= valor2) {
+                    condicionSeCumple = true;
+                }
+
+                break;
+
+        }
+        if (condicionSeCumple) {
+            let ultimoNivelEjecucion = tablaSimbolos.pilaEjecucion[tablaSimbolos.pilaEjecucion.length - 1];
+            let existeEtiqueta = ultimoNivelEjecucion.irAEtiqueta(this.etiqueta);
+            if (!existeEtiqueta) {
+                let error = {
+                    descripcion: 'No existe la etiqueta de nombre ' + this.etiqueta + ' en el procedimiento actual',
+                    tipo: 'semantico',
+                    linea: this.linea,
+                    columna: this.columna
+                }
+                errores.push(error);
+            }
+        }
 
     }
 }
+
 
 class NodoSaltoIncondicional {
     constructor(etiqueta, linea, columna) {
@@ -298,9 +363,9 @@ class NodoSaltoIncondicional {
     }
 
     ejecutar(tablaSimbolos) {
-       let nivelEjecucionActual = tablaSimbolos.pilaEjecucion[tablaSimbolos.pilaEjecucion.length-1];
-       let existeEtiqueta = nivelEjecucionActual.irAEtiqueta(this.etiqueta);
-       if(!existeEtiqueta){
+        let nivelEjecucionActual = tablaSimbolos.pilaEjecucion[tablaSimbolos.pilaEjecucion.length - 1];
+        let existeEtiqueta = nivelEjecucionActual.irAEtiqueta(this.etiqueta);
+        if (!existeEtiqueta) {
             let error = {
                 tipo: "semantico",
                 descripcion: 'no existe una etiqueta con el nombre ' + this.etiqueta + ' en el entorno actual',
@@ -308,8 +373,8 @@ class NodoSaltoIncondicional {
                 columna: this.columna
             }
             errores.push(error);
-       }
-       
+        }
+
     }
 }
 
@@ -371,25 +436,25 @@ class NodoPrint {
     }
 }
 
-class NodoEtiqueta{
-    constructor(nombre, linea, columna){
+class NodoEtiqueta {
+    constructor(nombre, linea, columna) {
         this.nombre = nombre.toLowerCase();
         this.linea = linea;
         this.columna = columna;
     }
 
-    ejecutar(tablaSimbolos){
-        let nivelEjecucionActual = tablaSimbolos.pilaEjecucion[tablaSimbolos.pilaEjecucion.length-1];
+    ejecutar(tablaSimbolos) {
+        let nivelEjecucionActual = tablaSimbolos.pilaEjecucion[tablaSimbolos.pilaEjecucion.length - 1];
         let existeEtiqueta = nivelEjecucionActual.buscarEtiqueta(this.nombre);
-        if(!existeEtiqueta){
-             let error = {
-                 tipo: "semantico",
-                 descripcion: 'no existe una etiqueta con el nombre ' + this.etiqueta + ' en el entorno actual',
-                 linea: this.linea,
-                 columna: this.columna
-             }
-             errores.push(error);
+        if (!existeEtiqueta) {
+            let error = {
+                tipo: "semantico",
+                descripcion: 'no existe una etiqueta con el nombre ' + this.etiqueta + ' en el entorno actual',
+                linea: this.linea,
+                columna: this.columna
+            }
+            errores.push(error);
         }
-        
+
     }
 }

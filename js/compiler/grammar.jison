@@ -236,16 +236,35 @@ OperandoSimple : t_id
 ;
 
 
-SaltoCondicional : t_if t_par_a Condicion t_par_c t_goto t_id t_pycoma;
+SaltoCondicional : t_if t_par_a OperandoSimple Logico OperandoSimple t_par_c t_goto t_id t_pycoma
+{
+    $$ = new NodoSaltoCondicional($3, $5, $4, $8, this._$.first_line, this._$.first_column);
+};
 
-Condicion : OperandoSimple OperadorLogico OperandoSimple;
-
-OperadorLogico : t_mayor
+Logico : t_mayor
+    {
+        $$ = OperadorLogico.MAYOR;
+    }
     | t_menor
+    {
+        $$ = OperadorLogico.MENOR;
+    }
     | t_dobleigual
+    {
+        $$ = OperadorLogico.IGUAL;
+    }
     | t_diferente
+    {
+        $$ = OperadorLogico.DIFERENTE;
+    }
     | t_mayor_igual
+    {
+        $$ = OperadorLogico.MAYOR_IGUAL;
+    }
     | t_menor_igual
+    {
+        $$ = OperadorLogico.MENOR_IGUAL;
+    }
 ;
 
 SaltoIncondicional : t_goto t_id t_pycoma{
